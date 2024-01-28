@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jam/consts/colors.dart';
 import 'package:jam/consts/text_style.dart';
 import 'package:jam/controllers/player_controller.dart';
+import 'package:jam/views/player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Home extends StatelessWidget {
@@ -18,11 +19,12 @@ class Home extends StatelessWidget {
         backgroundColor: bgDarkColor,
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: whiteColor,
-              ))
+            onPressed: () {},
+            icon: const Icon(
+              Icons.search,
+              color: whiteColor,
+            ),
+          ),
         ],
         leading: const Icon(
           Icons.sort_rounded,
@@ -60,8 +62,8 @@ class Home extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 4),
-                    child: Obx(() {
-                      return ListTile(
+                    child: Obx(() =>
+                      ListTile(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -83,7 +85,8 @@ class Home extends StatelessWidget {
                             size: 32,
                           ),
                         ),
-                        trailing: controller.playIndex.value == index && controller.isPlaying.value
+                        trailing: controller.playIndex.value == index &&
+                                controller.isPlaying.value
                             ? const Icon(
                                 Icons.play_arrow,
                                 color: whiteColor,
@@ -91,10 +94,16 @@ class Home extends StatelessWidget {
                               )
                             : null,
                         onTap: () {
-                          //controller.playSong(snapshot.data![index].uri, index);
+                          Get.to(
+                            () => Player(
+                              data: snapshot.data!,
+                            ),
+                            transition: Transition.downToUp,
+                          );
+                          controller.playSong(snapshot.data![index].uri, index);
                         },
-                      );
-                    }),
+                      )
+                    ),
                   );
                 },
               ),
